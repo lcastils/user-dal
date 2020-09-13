@@ -55,7 +55,7 @@ public class UserController {
             return new ResponseEntity<>(userRs, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     
     @DeleteMapping(value = "/user")
@@ -65,7 +65,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

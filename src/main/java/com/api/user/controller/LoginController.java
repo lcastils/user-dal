@@ -20,13 +20,13 @@ public class LoginController {
 	private UserService userService;
 
 	@PostMapping(value = "/login")
-    public ResponseEntity<UserRS> createUser(@RequestBody UserRQ user) {
+    public ResponseEntity<UserRS> login(@RequestBody UserRQ user) {
         UserRS userRs = userService.updateUser(user);
         if (Objects.nonNull(userRs)) {
             return new ResponseEntity<>(userRs, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

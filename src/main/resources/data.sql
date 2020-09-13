@@ -24,7 +24,7 @@ ALTER TABLE phones
 ADD FOREIGN KEY (user_id) REFERENCES user_data(id);
  
 INSERT INTO user_data (name, email, password,token,creation_date,update_date,last_login,is_active) VALUES
-  ('Juan Rodriguez', 'juan@rodriguez.cl', 'XSu1Vb5J','testToken',  CURRENT_TIMESTAMP(),null,CURRENT_TIMESTAMP(),1);
+  ('Juan Rodriguez', 'juan@rodriguez.cl', 'Xuadas1aa4','testToken',  CURRENT_TIMESTAMP(),null,CURRENT_TIMESTAMP(),1);
   
   insert into phones (number,citycode,contrycode,user_id) values (12314,1,12,1);
   insert into phones (number,citycode,contrycode,user_id) values (11111,1,12,1);
