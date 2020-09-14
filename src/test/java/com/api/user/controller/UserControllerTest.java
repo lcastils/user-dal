@@ -59,7 +59,9 @@ public class UserControllerTest {
 		userRs.setIsActive(Boolean.TRUE);
 		userRs.setName(objRq.getName());
 		userRs.setPhones(listPhones);
-
+		List<UserRS> listResponse = new ArrayList<>();
+		listResponse.add(userRs);
+		Mockito.when(userService.findAllUsers()).thenReturn(listResponse);
 		Mockito.when(userService.creatreUser(Mockito.any())).thenReturn(userRs);
 		Mockito.when(userService.updateUser(Mockito.any())).thenReturn(userRs);
 		Mockito.when(userService.deleteUser(Mockito.any())).thenReturn(userRs);
@@ -116,6 +118,20 @@ public class UserControllerTest {
 	public void deleteUserFail() {
 		Mockito.when(userService.deleteUser(Mockito.any())).thenReturn(null);
 		ResponseEntity<UserRS> response = userController.deleteUser(objRq);
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+	}
+	
+	
+	@Test
+	public void findAllUserOk() {
+		ResponseEntity<List<UserRS>> response = userController.findAllUsers();
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+	
+	@Test
+	public void findAllUserEmpty() {
+		Mockito.when(userService.findAllUsers()).thenReturn(new ArrayList<>());
+		ResponseEntity<List<UserRS>> response = userController.findAllUsers();
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
 	

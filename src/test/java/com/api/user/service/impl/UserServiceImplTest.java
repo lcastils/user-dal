@@ -3,6 +3,7 @@ package com.api.user.service.impl;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
@@ -76,9 +77,25 @@ public class UserServiceImplTest {
 		responseSave.setName(objRq.getName());
 		responseSave.setPhones(listEntity);
 
+		List<UserEntity> listResponse = new ArrayList<>();
+		listResponse.add(responseSave);
+		Mockito.when(userRepository.findByIsActive(Boolean.TRUE)).thenReturn(listResponse);
 		Mockito.when(userRepository.findByEmailAndIsActive(Mockito.anyString(), Mockito.anyBoolean()))
 				.thenReturn(Optional.of(responseSave));
 		Mockito.when(userRepository.save(Mockito.any())).thenReturn(responseSave);
+	}
+
+	@Test
+	public void findAllOK() {
+		List<UserRS> response = userService.findAllUsers();
+		assertNotNull("find all user ok" , response);
+	}
+	
+	@Test
+	public void findAllEmpty() {
+		Mockito.when(userRepository.findByIsActive(Boolean.TRUE)).thenReturn(new ArrayList<>());
+		List<UserRS> response = userService.findAllUsers();
+		assertTrue(response.isEmpty());
 	}
 
 	@Test
@@ -106,11 +123,11 @@ public class UserServiceImplTest {
 		UserRS response = userService.getUserByEmail(objRq.getEmail());
 		assertNotNull("user found ", response);
 	}
-	
+
 	@Test
 	public void getUserByEmailNotFound() {
 		Mockito.when(userRepository.findByEmailAndIsActive(Mockito.anyString(), Mockito.anyBoolean()))
-		.thenReturn(Optional.empty());
+				.thenReturn(Optional.empty());
 		UserRS response = userService.getUserByEmail(objRq.getEmail());
 		assertNull("user not found ", response);
 	}

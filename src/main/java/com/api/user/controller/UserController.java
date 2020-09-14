@@ -1,5 +1,6 @@
 package com.api.user.controller;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,18 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
+    @GetMapping(value = "/user/findall", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<UserRS>> findAllUsers() {
+        log.info("find all users");
+        List<UserRS> userRs = userService.findAllUsers();
+        if (!userRs.isEmpty()) {
+            return new ResponseEntity<>(userRs, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    
 
     @GetMapping(value = "/user/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserRS> getUserByEmail(@PathVariable("email") String email) {
